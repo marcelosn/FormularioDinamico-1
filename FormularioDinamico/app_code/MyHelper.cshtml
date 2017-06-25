@@ -1,0 +1,47 @@
+﻿@inherits FormularioDinamico.app_code.AbstractMyHelper
+@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Web.Mvc.Ajax
+
+
+@helper ComboboxBootstrap(IEnumerable<String> listagem)
+{
+    @Html.ActionLink("Teste de voltar","Index")
+    <br />
+    
+    foreach(String s in listagem){
+        @String.Format("{0}", s)
+        <br />
+    }
+    
+}
+
+@helper CarregaGridSelect(String label, String controlador, String action, String filtros, String executeOnSelect){
+    
+    @Html.ActionLink(label,action)
+    
+   <script type="text/javascript">
+
+       $(document).ready(function () {
+           eval("@executeOnSelect");
+       });
+
+       $.ajax
+
+       function exibeAlerta() {
+           alert('xpto');
+       }
+       
+   </script>
+}
+
+@helper UtilizaAjaxMvc(String label, String action,String target)
+{
+    @Ajax.ActionLink(label, action,
+                    new AjaxOptions() { 
+                        UpdateTargetId = target, 
+                        InsertionMode = System.Web.Mvc.Ajax.InsertionMode.Replace,
+                        OnComplete="onCompleteMethodName",
+                        HttpMethod = "GET"}
+                    )
+}

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<String>
+@{
+    ViewBag.Title = "Selecionar";
+}
+
+
+ <script type="text/javascript" src="~/Scripts/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.min.js" ></script>
+
+ <script type="text/javascript">
+
+     var contador = 0;
+
+        function sucesso() {
+            alert('Sucesso');
+        }
+
+        function complete() {
+            alert("Complete");
+        }
+
+        function falha() {
+            alert('Falha');
+        }
+     
+        function begin() {
+            if (contador++ < 2) {
+                alert("The action method will not be invoked");
+                return false; //cancela a requisição para o servidor
+            } else {
+                alert('begin');
+            };
+        }
+
+        function clearDiv(div) {
+            $("#CustomerList").empty();
+        }
+
+        function clearText() {
+            document.getElementById("txtStatus").value = "";
+            $("#newStatus").hide().fadeIn(1000);
+        }
+
+</script>
+
+<h2>Selecionar</h2>
+@Html.ActionLink("Voltar","Index")<br />
+
+@Ajax.ActionLink("Listar Cidades", "ListarCidades",
+                    new AjaxOptions() { 
+                        LoadingElementId="loading",
+                        HttpMethod = "GET",
+                        UpdateTargetId = "CustomerList", 
+                        InsertionMode = InsertionMode.Replace,
+                        OnSuccess="complete",
+                        OnBegin="clearDiv"
+                        }
+                    ) | 
+
+@Ajax.ActionLink("Listar UF's", "ListarEstados",
+                    new AjaxOptions() { 
+                        UpdateTargetId = "CustomerList", 
+                        InsertionMode = System.Web.Mvc.Ajax.InsertionMode.Replace,
+                        OnComplete="complete", OnSuccess="sucesso", OnFailure="falha", OnBegin="begin",
+                        HttpMethod = "GET"}
+                    )
+
+<div id="CustomerList"> </div>
+<div id="loading" style="display:none;"><img src="~/Content/images/ajax-loader.gif" /></div>
+
+
+@using(@Ajax.BeginForm("InsertPost",new AjaxOptions{ HttpMethod="post", 
+    InsertionMode=InsertionMode.InsertBefore, 
+    UpdateTargetId="posts",
+    OnSuccess = "clearText"
+}))
+{
+    <div id="conteudo">
+        <textarea id="txtStatus" name="newStatus" placeholder="O que você está pensando?"></textarea>
+        <input type="submit" id="postStatus" value="Publicar" />
+    </div>
+}
+
+<div id="posts"></div>

@@ -1,0 +1,21 @@
+﻿@model  IEnumerable<FormularioDinamico.Models.CampoDinamico>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View Dinâmica</h2>
+
+<div>
+    @{ Html.RenderPartial("ControlesDinamicos/FormDinamico", Model); }
+</div>
+
+<div>
+    @{ Html.RenderPartial("IndexStateless"); }
+</div>
+
+<span>Ajax....</span>
+@{
+    MyHelper.UtilizaAjaxMvc("Ajax link", "Selecionar", "target");
+}

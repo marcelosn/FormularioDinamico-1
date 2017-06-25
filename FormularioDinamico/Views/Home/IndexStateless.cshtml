@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "IndexStateless";
+}
+
+<h2>Essa é uma View Partial</h2>
+@{
+    var listagem = new List<String>();
+    for(var i = 1; i < 20; i++){
+        listagem.Add("valor: " + i);
+    }
+}
+
+<div>
+   @MyHelper.ComboboxBootstrap(listagem)
+</div>
+
+@MyHelper.CarregaGridSelect("Selecione tudo!","Home", "Selecionar","%","exibeAlerta()")
